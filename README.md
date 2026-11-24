@@ -1,16 +1,61 @@
-# React + Vite
+🛍️ Ecommerce Shop — Modern React Storefront
+A responsive e-commerce web application built with React 19, Vite, and Redux Toolkit, engineered for smooth product discovery, cart and wishlist workflows, customer reviews, and clean maintainable code.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+✨ Key Features
+Catalog, Search & Filtering: Browse products smoothly with search, category/price filtering, sorting, and URL-synced query state.
 
-Currently, two official plugins are available:
+Rich Product Details: Multi-image gallery, stock indicators, discount badges, related products marquee, and interactive customer reviews (add & delete).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Cart & Wishlist Management: Add items, adjust quantities, toggle wishlist items, and stay synced with real-time API state.
 
-## React Compiler
+Form Validation & UX: Structured forms powered by React Hook Form and Zod, paired with Framer Motion and Lottie animations plus SweetAlert2 / Toast feedback.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Session Handling: Cookie-based session management via js-cookie and protected/authenticated flows.
 
-## Expanding the ESLint configuration
+🧠 Engineering & Code Quality Highlights
+Server State & Caching: Powered by RTK Query for predictable API fetching, caching, and mutations.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Automated Code Quality Gate: Enforces formatting and lint rules across src/ with Biome, running automatically on staged files via Husky and lint-staged (*.{js,jsx,ts,tsx,json,css}).
+
+Git Hooks with Husky: Configured with Husky (prepare script) so code formatting and linting checks run automatically before commits to keep the repository clean.
+
+🛠️ Tech Stack
+Layer	Technologies
+Core & Routing	React 19, Vite, React Router DOM
+State & API	Redux Toolkit, RTK Query, js-cookie
+Forms & Validation	React Hook Form, Zod, @hookform/resolvers
+UI & Motion	Tailwind CSS v4, Lucide React, Framer Motion, Lottie React, SweetAlert2, React Toastify
+Linting & Hooks	Biome, Husky, lint-staged
+🚀 Getting Started
+1. Clone & Install
+Bash
+git clone <your-repo-url>
+cd ecommerce_shop
+npm install
+Husky Git Hooks: Running npm install triggers the prepare script and sets up Husky Git hooks automatically. To initialize or attach hooks manually at any time:
+
+Bash
+npx husky
+2. Environment Variables
+Create a .env file in the project root if your backend API URL is configured via Vite environment variables:
+
+ VITE_API_URL=http://localhost:5000/api
+3. Run Locally
+Bash
+npm run dev
+📜 Available Scripts
+Command	Description
+npm run dev	Start the Vite development server
+npm run build	Build the app for production
+npm run preview	Preview the production build locally
+npm run lint	Run Biome check across src/
+npm run format	Auto-format files in src/ with Biome
+npm run prepare	Initialize Husky Git hooks
+ 
+
+🗺️ Roadmap
+[ ] Checkout & order history flow
+
+[ ] Payment gateway integration
+
+[ ] Performance & bundle optimization polish
