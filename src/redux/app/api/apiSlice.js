@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "js-cookie";
 import environment from "../../../config/environment";
 
-const dynamicBaseUrl = environment.isDevelopment ? "/api" : environment.baseUrl;
+const dynamicBaseUrl = "/api";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: dynamicBaseUrl,
