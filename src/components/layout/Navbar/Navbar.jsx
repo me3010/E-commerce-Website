@@ -489,5 +489,5 @@ export default function Navbar() {
         className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-linear-to-r from-orange-400 to-orange-600"
       />
     </motion.header>
-  ); 
+  );
 }
