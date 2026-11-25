@@ -17,7 +17,7 @@ import {
   User,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import logoImage from "../../../assets/logo1.png";
@@ -161,14 +161,18 @@ export default function Navbar() {
   const [isAuthed, setIsAuthed] = useState(() => hasSession());
   const [userLabel, setUserLabel] = useState(() => readUserLabel());
 
-  const syncAuth = () => {
+  const syncAuth = useCallback(() => {
     setIsAuthed(hasSession());
     setUserLabel(readUserLabel());
-  };
+  }, []);
 
   useEffect(() => {
-    syncAuth();
-  }, [pathname]);
+    if (pathname) {
+      syncAuth();
+      setMenuOpen(false);
+      setSearchOpen(false);
+    }
+  }, [pathname, syncAuth]);
 
   useEffect(() => {
     window.addEventListener("storage", syncAuth);
@@ -179,7 +183,7 @@ export default function Navbar() {
       window.removeEventListener("authChange", syncAuth);
       window.removeEventListener("focus", syncAuth);
     };
-  }, []);
+  }, [syncAuth]);
 
   const { data: cart, refetch: refetchCart } = useGetMyCartQuery(undefined, {
     skip: !isAuthed,
@@ -213,12 +217,6 @@ export default function Navbar() {
   useEffect(() => {
     setScrolled(window.scrollY > 12);
   }, []);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: close panels on route change
-  useEffect(() => {
-    setMenuOpen(false);
-    setSearchOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     if (!menuOpen && !searchOpen) return;
