@@ -92,6 +92,17 @@ const hasSession = () => {
   }
 };
 
+const readUserLabel = () => {
+  const raw = Cookies.get("user");
+  if (!raw) return "";
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed?.username || parsed?.name || raw;
+  } catch {
+    return raw;
+  }
+};
+
 function Badge({ n }) {
   if (!n) return null;
   return (
@@ -148,13 +159,26 @@ export default function Navbar() {
   const [logoutMutation, { isLoading: isLoggingOut }] = useLogoutMutation();
 
   const [isAuthed, setIsAuthed] = useState(() => hasSession());
+  const [userLabel, setUserLabel] = useState(() => readUserLabel());
+
+  const syncAuth = () => {
+    setIsAuthed(hasSession());
+    setUserLabel(readUserLabel());
+  };
 
   useEffect(() => {
-    const syncAuth = () => {
-      setIsAuthed(hasSession());
-    };
+    syncAuth();
+  }, [pathname]);
+
+  useEffect(() => {
     window.addEventListener("storage", syncAuth);
-    return () => window.removeEventListener("storage", syncAuth);
+    window.addEventListener("authChange", syncAuth);
+    window.addEventListener("focus", syncAuth);
+    return () => {
+      window.removeEventListener("storage", syncAuth);
+      window.removeEventListener("authChange", syncAuth);
+      window.removeEventListener("focus", syncAuth);
+    };
   }, []);
 
   const { data: cart, refetch: refetchCart } = useGetMyCartQuery(undefined, {
@@ -238,6 +262,7 @@ export default function Navbar() {
         localStorage.removeItem("isAuthenticated");
       } catch {}
       setIsAuthed(false);
+      setUserLabel("");
       window.dispatchEvent(new Event("authChange"));
       dispatch(apiSlice.util.resetApiState());
       navigate("/login");
@@ -347,9 +372,9 @@ export default function Navbar() {
                 className="flex h-10 items-center gap-2 rounded-full border border-slate-200/80 bg-white/70 px-3 text-slate-700 shadow-sm backdrop-blur-md transition duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-white hover:text-orange-500 hover:shadow-md hover:shadow-orange-500/20 active:scale-90 dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-orange-400"
               >
                 <User size={18} className="shrink-0" />
-                {Cookies.get("user") && (
+                {userLabel && (
                   <span className="max-w-28 truncate text-sm font-semibold">
-                    {Cookies.get("user")}
+                    {userLabel}
                   </span>
                 )}
               </Link>
@@ -358,7 +383,7 @@ export default function Navbar() {
                 aria-label="Log out"
                 disabled={isLoggingOut}
                 onClick={logout}
-                className={`${iconBtn} hidden hover: text-red-500! sm:grid disabled:opacity-50`}
+                className={`${iconBtn} hidden hover:text-red-500! sm:grid disabled:opacity-50`}
               >
                 <LogOut size={18} />
               </button>
