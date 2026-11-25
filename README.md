@@ -50,7 +50,7 @@ npm run preview	Preview the production build locally
 npm run lint	Run Biome check across src/
 npm run format	Auto-format files in src/ with Biome
 npm run prepare	Initialize Husky Git hooks
- 
+
 
 🗺️ Roadmap
 [ ] Checkout & order history flow
