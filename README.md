@@ -58,5 +58,3 @@ npm run prepare	Initialize Husky Git hooks
 [ ] Payment gateway integration
 
 [ ] Performance & bundle optimization polish
-
-
