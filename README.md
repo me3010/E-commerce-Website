@@ -55,6 +55,6 @@ npm run prepare	Initialize Husky Git hooks
 🗺️ Roadmap
 [ ] Checkout & order history flow
 
-[ ] Payment gateway integration
+[ ] Payment gateway integration  
 
 [ ] Performance & bundle optimization polish
